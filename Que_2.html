@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.1.0.js"> </script>
+  <title>SHAILESH</title>
+</head>
+
+<body>
+  <style>
+    body {
+      font-family: 'Times New Roman';
+      font-size: 20px;
+      padding-top: 14%;
+      padding-left:23%;
+    }
+    .Class2 {
+      padding: 1em;
+      background-color: #cccc7cd7;
+      border: 1px solid rgb(226, 79, 79);
+      max-width: 655px;
+    }
+
+    .Class2 input {
+      font-family: Arial;
+    }
+
+    .Class2 b {
+      font-weight: bold;
+    }
+
+    .Class2 p {
+      margin-top: 0.9em;
+      margin-bottom: 0.9em;
+    }
+
+    .Class2 select[multiple] {
+      width: 100%;
+      height: 8em;
+    }
+
+    .Class2 h2 {
+      margin-top: 0.4em;
+    }
+  </style>
+
+  <div class='Class2'>
+
+    <form data-bind="submit:addItem">
+      Add item: <input type="text" data-bind='value:itemToAdd, valueUpdate: "afterkeydown"' />
+      <button style="color: #b3b36ed7 ;" type="submit" data-bind="enable: itemToAdd().length > 0">Add <style>= colgroup=</style></button>
+    </form>
+
+    <p>Your values:</p>
+    <select multiple="multiple" height="5" data-bind="options:allItems, selectedOptions:selectedItems"> </select>
+
+    <div>
+      <button data-bind="click: removeSelected, enable: selectedItems().length > 0">Remove</button>
+      <button data-bind="click: sortItems, enable: allItems().length > 1">Sort</button>
+    </div>
+  </div>
+  <script>
+    var Model = function () {
+      this.itemToAdd = ko.observable("");
+      this.allItems = ko.observableArray(["Fries", "Eggs Benedict", "Ham", "Cheese"]); // Initialise new items
+      this.selectedItems = ko.observableArray(["Ham"]); 
+
+      this.addItem = function () {
+        if ((this.itemToAdd() != "") && (this.allItems.indexOf(this.itemToAdd()) < 0)) 
+          this.allItems.push(this.itemToAdd());
+        this.itemToAdd(""); // Clear box
+      };
+
+      this.removeSelected = function () {
+        this.allItems.removeAll(this.selectedItems());
+        this.selectedItems([]); 
+      };
+
+      this.sortItems = function () {
+        this.allItems.sort();
+      };
+    };
+    ko.applyBindings(new Model());
+  </script>
+</body>
+</html>
